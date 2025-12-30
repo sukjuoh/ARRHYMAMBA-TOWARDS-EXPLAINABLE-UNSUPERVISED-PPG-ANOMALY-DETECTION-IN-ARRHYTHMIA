@@ -1,0 +1,56 @@
+dataset:
+  in_channels: 1
+  batch_sizes:
+    stage1: 512 
+    stage2: 1024 
+  num_workers: 0
+  window_size: 96 
+  n_periods: 2  
+  train_path: "/root/PPG/timevqvae/preprocessing/dataset"
+
+exp_params:
+  lr:
+    stage1: 0.005
+    stage2: 0.0001
+  linear_warmup_rate: 0.1
+
+trainer_params:
+  gpus:
+    - 1
+  max_steps:
+    stage1: 100000
+    stage2: 100000
+  max_hours:
+    stage1: 12
+    stage2: 12
+  val_check_interval:
+    stage1: 1000
+    stage2: 1000
+
+
+
+encoder:
+  dim: 64
+  n_resnet_blocks: 4
+  downsampled_width: 32
+
+decoder:
+  n_resnet_blocks: 4
+
+VQ-VAE:
+  resol_rate: 8
+  n_fft: 4
+  codebook_size: 64 #128
+
+
+ArrhyMamba:
+  choice_temperature: 4  # for masking
+  T: 20
+  mask_scheduling_func: "cosine"
+  prior_model:
+    hidden_dim: 128
+    mamba_layers: 1
+    depth: 1
+    heads: 4
+    attn_dim_head: 64
+    dropout: 0.3
