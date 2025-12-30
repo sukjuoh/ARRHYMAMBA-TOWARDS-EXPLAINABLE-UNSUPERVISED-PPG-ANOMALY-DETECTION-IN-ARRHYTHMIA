@@ -1,5 +1,7 @@
 # ArrhyMamba: Hybrid SSM-Transformer for PPG Arrhythmia Detection
 
+**Notice:** This repository is shared proactively to ensure **transparency during the peer-review process**. A fully organized and official version of the code will be released upon the formal publication of the manuscript.
+
 This repository contains the official implementation of **ArrhyMamba**, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
 
 ---
@@ -23,10 +25,9 @@ pip install -r requirements.txt
 ```
 
 ## 3. Data Availability
-
 * **Public Dataset**: Raw PPG signals are sourced from the **VitalDB** open repository ([https://vitaldb.net/](https://vitaldb.net/)).
-* **Restricted Data**: The specialized arrhythmia annotations and preprocessed datasets generated for this study are **not publicly available** due to ethical restrictions and patient privacy concerns.
-* **Access Requests**: Researchers may contact the corresponding author for access to specific metadata, which will be granted upon reasonable request and institutional approval.
+* **Restricted Data**: Please note that the **refined datasets and expert-labeled annotations** generated for this study are **strictly not publicly available** due to ethical restrictions, patient privacy concerns, and institutional policies.
+* **Access**: Researchers may contact the corresponding author for reasonable access requests regarding metadata, subject to institutional approval.
 
 ## 4. Repository Structure
 
