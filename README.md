@@ -1,5 +1,6 @@
 
-**ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia**
+ # ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+
 This repository contains the official implementation of ArrhyMamba, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
 
 1. Overview
@@ -15,8 +16,7 @@ Hardware: NVIDIA GPU with a compatible CUDA Toolkit for PyTorch 2.3.0.
 Core Dependencies: Detailed versions for torch, mamba-ssm, heartpy, and x-transformers are listed in requirements.txt.
 
 Bash
-
-# Install dependencies from the provided requirements file
+Install dependencies from the provided requirements file
 pip install -r requirements.txt
 Note: The mamba-ssm and causal-conv1d packages require a C++ compiler and CUDA environment to build specialized kernels during installation.
 
