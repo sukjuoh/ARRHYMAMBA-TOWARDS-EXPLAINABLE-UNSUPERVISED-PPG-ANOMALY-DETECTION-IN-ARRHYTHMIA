@@ -1,6 +1,5 @@
-네, 요청하신 대로 'How to Run' 섹션을 제외하고 나머지 핵심 내용을 담은 README.md 파일 내용을 정리해 드립니다. 아래 내용을 복사하여 파일로 만드시면 됩니다.
 
-ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+**ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia**
 This repository contains the official implementation of ArrhyMamba, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
 
 1. Overview
