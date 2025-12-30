@@ -1,37 +1,37 @@
+# ArrhyMamba: Hybrid SSM-Transformer for PPG Arrhythmia Detection
 
- # ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+This repository contains the official implementation of **ArrhyMamba**, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
 
-This repository contains the official implementation of ArrhyMamba, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
+---
 
-1. Overview
-ArrhyMamba leverages the long-sequence modeling capabilities of Mamba and the robust attention mechanism of Transformers (integrated with RoPE) to identify irregular cardiac patterns in PPG data. The model is specifically optimized for high-frequency biomedical signals where capturing both global dependencies and local features is critical.
+## 1. Overview
 
-2. Installation & Requirements
-To ensure the CUDA extensions for Mamba (specifically selective_scan_cuda) are correctly compiled, the following environment is required.
+* **Architecture**: ArrhyMamba leverages the long-sequence modeling of **Mamba** and the robust attention mechanism of **Transformers** with **RoPE** (Rotary Positional Embedding).
+* **Optimization**: The model is specifically optimized for high-frequency biomedical signals, capturing both global dependencies and local features.
 
-Python Version: 3.9 or higher.
+## 2. Requirements & Installation
 
-Hardware: NVIDIA GPU with a compatible CUDA Toolkit for PyTorch 2.3.0.
+To ensure the CUDA extensions for Mamba (specifically `selective_scan_cuda`) are correctly compiled, the following environment is required:
 
-Core Dependencies: Detailed versions for torch, mamba-ssm, heartpy, and x-transformers are listed in requirements.txt.
+* **Python Version**: 3.9 or higher.
+* **Hardware**: NVIDIA GPU with a compatible CUDA Toolkit for PyTorch 2.3.0.
+* **Dependencies**: Install core libraries using the provided `requirements.txt`.
 
-Bash
-Install dependencies from the provided requirements file
+```bash
+# Install all dependencies
 pip install -r requirements.txt
-Note: The mamba-ssm and causal-conv1d packages require a C++ compiler and CUDA environment to build specialized kernels during installation.
 
-3. Data Availability
-Public Dataset: Raw PPG signals are sourced from the VitalDB open repository (https://vitaldb.net/).
 
-Restricted Data: The specialized arrhythmia annotations and preprocessed datasets generated for this study are not publicly available due to ethical restrictions and patient privacy concerns.
+## 3. Data Availability
 
-Access Requests: Researchers may contact the corresponding author for access to specific metadata, which will be granted upon reasonable request and institutional approval.
+* **Public Dataset**: Raw PPG signals are sourced from the **VitalDB** open repository ([https://vitaldb.net/](https://vitaldb.net/)).
+* **Restricted Data**: The specialized arrhythmia annotations and preprocessed datasets generated for this study are **not publicly available** due to ethical restrictions and patient privacy concerns.
+* **Access Requests**: Researchers may contact the corresponding author for access to specific metadata, which will be granted upon reasonable request and institutional approval.
 
-4. Repository Structure
-models/: Implementation of the hybrid Mamba-Transformer architecture including RoPE (Rotary Positional Embedding).
+## 4. Repository Structure
 
-data/: Data loading utilities and preprocessing scripts utilizing heartpy for signal filtering.
+* **`models/`**: Implementation of the hybrid Mamba-Transformer architecture including RoPE (Rotary Positional Embedding).
+* **`data/`**: Data loading utilities and preprocessing scripts utilizing `heartpy` for signal filtering.
+* **`utils/`**: Custom CUDA kernels for selective scan and training helper functions.
+* **`configs/`**: YAML files containing hyperparameter settings to ensure experimental reproducibility.
 
-utils/: Custom CUDA kernels for selective scan and training helper functions.
-
-configs/: YAML files containing hyperparameter settings to ensure experimental reproducibility.
