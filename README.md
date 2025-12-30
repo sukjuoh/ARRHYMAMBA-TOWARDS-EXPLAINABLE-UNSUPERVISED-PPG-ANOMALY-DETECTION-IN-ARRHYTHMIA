@@ -20,7 +20,7 @@ To ensure the CUDA extensions for Mamba (specifically `selective_scan_cuda`) are
 ```bash
 # Install all dependencies
 pip install -r requirements.txt
-
+```
 
 ## 3. Data Availability
 
