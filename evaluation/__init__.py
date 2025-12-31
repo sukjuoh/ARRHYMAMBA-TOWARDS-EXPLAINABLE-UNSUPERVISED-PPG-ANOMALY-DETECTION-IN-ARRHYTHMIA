@@ -28,13 +28,14 @@ import torch.nn.functional as F
 from exp.set_stage2 import SetStage2
 from sklearn.metrics import roc_auc_score
 
-from train_stage2 import get_state_dict
-from preprocessing.load_data import scale
 from utils import get_root_dir, set_window_size
-from preprocessing.load_data import PPG_TestSequence, PPGTestDataset
+from preprocessing.load_data import PPG_TestSequence, PPGTestDataset, scale
 from models.stage2.ArrhyMamba import ArrhyMamba
 from preprocessing.serve_data import build_data_pipeline
 
+
+def get_state_dict(state_dict):
+    return {k: v for k, v in state_dict.items() if not any(substr in k for substr in ["encoder", "decoder", "stage1", "vq_model"])}
 
 def compute_auc(TP_indices, FP_indices, FN_indices, length):
    
