@@ -1,21 +1,17 @@
-# --- Base dependencies ---
-einops
-matplotlib
-numpy==1.26.4
-pandas
-torch==2.3.0
-pytorch-lightning==2.3.0
-PyYAML
-scikit-learn
-statsmodels==0.14.0
-torchtune
-wandb
 
-# --- Signal Processing ---
+torch==2.4.0
+torchvision==0.19.0
+pytorch-lightning==2.3.0
+einops==0.8.1
+
+mamba-ssm==2.2.2
+causal-conv1d==1.4.0
+
+numpy==1.24.4
+pandas==2.3.3
+scipy==1.15.3
 heartpy==1.2.7
 
-# --- Mamba Architecture (Provides selective_scan_cuda & causal_conv1d) ---
-mamba-ssm==2.2.2
-
-# --- Positional Embeddings (RoPE) ---
-rotary-embedding-torch==0.6.4
+matplotlib==3.10.8
+tqdm==4.67.1
+pyyaml==6.0.3
