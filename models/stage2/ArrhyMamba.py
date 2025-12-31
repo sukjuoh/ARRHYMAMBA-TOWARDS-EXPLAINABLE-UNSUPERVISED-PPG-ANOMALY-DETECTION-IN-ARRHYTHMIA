@@ -13,7 +13,7 @@ from einops import repeat, rearrange
 from typing import Callable
 
 from collections import deque
-from experiments.exp_stage1 import ExpStage1
+from exp.set_stage1 import SetStage1
 from models.stage1.encoder_decoder import VQVAEEncoder
 from models.stage1.vq_layer import VectorQuantize
 from models.stage2.mambatransformer import MambaTransformer
@@ -74,7 +74,7 @@ class ArrhyMamba(nn.Module):
         self.mask_token_id = config['VQ-VAE']['codebook_size']
         self.gamma = gamma_func(config['ArrhyMamba']['mask_scheduling_func'])
 
-        self.stage1 = ExpStage1.load_from_checkpoint(os.path.join('saved_models', 'stage1.ckpt'), 
+        self.stage1 = SetStage1.load_from_checkpoint(os.path.join('saved_models', 'stage1.ckpt'), 
                                                      config=config,
                                                      map_location='cpu')
         freeze(self.stage1)
@@ -91,7 +91,7 @@ class ArrhyMamba(nn.Module):
         self.transformer = MambaTransformer(embed_dim=config['encoder']['dim'],
                                                     num_tokens=self.num_tokens,
                                                     codebook_size=config['VQ-VAE']['codebook_size'],
-                                                    **config['MaskGIT']['prior_model'],
+                                                    **config['ArrhyMamba']['prior_model'],
                                                     )
 
     @torch.no_grad()
