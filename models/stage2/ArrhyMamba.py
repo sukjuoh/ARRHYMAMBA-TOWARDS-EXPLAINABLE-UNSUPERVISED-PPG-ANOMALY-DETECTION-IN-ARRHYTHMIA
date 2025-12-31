@@ -13,7 +13,7 @@ from einops import repeat, rearrange
 from typing import Callable
 
 from collections import deque
-from exp.set_stage1 import SetStage1
+from module.set_stage1 import SetStage1
 from models.stage1.encoder_decoder import VQVAEEncoder
 from models.stage1.vq_layer import VectorQuantize
 from models.stage2.mambatransformer import MambaTransformer
