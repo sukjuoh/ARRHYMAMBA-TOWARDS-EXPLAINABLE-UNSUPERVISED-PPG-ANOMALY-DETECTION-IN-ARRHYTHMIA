@@ -15,8 +15,8 @@ This repository contains the official implementation of **ArrhyMamba**, a hybrid
 
 To ensure the CUDA extensions for Mamba (specifically `selective_scan_cuda`) are correctly compiled, the following environment is required:
 
-* **Python Version**: 3.9 or higher.
-* **Hardware**: NVIDIA GPU with a compatible CUDA Toolkit for PyTorch 2.3.0.
+* **Python Version**: 3.10 or higher.
+* **Hardware**: NVIDIA GPU with a compatible CUDA Toolkit for PyTorch 2.4.0.
 * **Dependencies**: Install core libraries using the provided `requirements.txt`.
 
 ```bash
