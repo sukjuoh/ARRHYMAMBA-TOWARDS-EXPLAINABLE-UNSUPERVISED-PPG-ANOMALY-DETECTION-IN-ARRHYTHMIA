@@ -77,7 +77,7 @@ class Attention(nn.Module):
 
 
 
-class RoFormer(nn.Module):
+class TransformerBlock(nn.Module):
     def __init__(self, embedding_dim, num_heads, H:int, dropout=0.0):
         super().__init__()
         self.H = H
@@ -96,12 +96,12 @@ class RoFormer(nn.Module):
 
 
 
-class SimpleTransformer(nn.Module):
+class RoFormer(nn.Module):
     def __init__(self, depth, embedding_dim, num_heads, H:int, dropout=0.0):
         super().__init__()
         self.linear1 = nn.Linear(embedding_dim, embedding_dim*4)
         self.layers = nn.ModuleList([
-            SimpleTransformerBlock(embedding_dim*4, num_heads, H, dropout=dropout)
+            TransformerBlock(embedding_dim*4, num_heads, H, dropout=dropout)
             for _ in range(depth)
         ])
         self.norm = RMSNorm(embedding_dim*4, eps=1e-5)
