@@ -87,10 +87,8 @@ class MambaTransformer(nn.Module):
 
         # token embeddings
         self.tok_emb = nn.Embedding(codebook_size+1, embed_dim)  # `+1` is for mask-token
-        self.pos_emb = nn.Embedding(codebook_size+1, embed_dim)  # `+1` is for mask-token
 
         # transformer
-        #self.pos_emb = nn.Embedding(self.num_tokens + 1, in_dim)
         self.transformer = RoFormer(depth=depth, embedding_dim=embed_dim, num_heads=heads, H=self.F, dropout=dropout)
 
     
@@ -110,9 +108,8 @@ class MambaTransformer(nn.Module):
             token_embeddings_dropout = F.dropout(token_embeddings, p=self.dropout)  # (b n d)
             token_embeddings = torch.where(mask_ind, token_embeddings, token_embeddings_dropout)  # (b n d)
         
-        position_embeddings = self.pos_emb.weight[:n, :]
         
-        embed = token_embeddings + position_embeddings
+        embed = token_embeddings
 
         #embed = token_embeddings + time_embedding + freq_embedding # (b, n, dim)
         embed = self.mamba_layer(embed)  # (b, n, dim)
