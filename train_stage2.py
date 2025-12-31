@@ -7,8 +7,8 @@ import wandb
 import pytorch_lightning as pl
 from torch.utils.data import DataLoader
 from pytorch_lightning.callbacks import LearningRateMonitor
-from preprocessing.preprocess import PPG_NormalSequence
-from preprocessing.data_pipeline import build_pretrain_data_pipeline
+from preprocessing.load_data import PPG_NormalSequence
+from preprocessing.serve_data import build_pretrain_data_pipeline
 from pytorch_lightning.loggers import WandbLogger
 from pathlib import Path
 from pytorch_lightning.callbacks import EarlyStopping
@@ -24,7 +24,7 @@ def load_args():
     parser = ArgumentParser()
     parser.add_argument('--config', type=str, help="Path to the config data  file.",
                         default=get_root_dir().joinpath('configs', 'config.yaml'))
-    parser.add_argument('--gpu_device_ind', nargs='+', default=[1], type=int)
+    parser.add_argument('--gpu_device_ind', nargs='+', default=[0], type=int)
     return parser.parse_args()
 
 
@@ -120,7 +120,7 @@ if __name__ == '__main__':
         test_data_loader=test_data_loader,
         gpu_device_ind=args.gpu_device_ind,)
     
-    checkpoint_path = 'saved_models/stage2_mamba.ckpt'
+    checkpoint_path = 'saved_models/stage2_arrhymamba.ckpt'
     trainer.save_checkpoint(checkpoint_path)
     
     wandb.finish()
