@@ -57,11 +57,11 @@ class SetStage2(pl.LightningModule):
                 self.log(f'val/{k}', v)
 
         if batch_idx == 0:
-            self.maskgit.eval()
+            self.model.eval()
 
             # unconditional sampling
-            s = self.maskgit.iterative_decoding(device=self.device)
-            xhat = self.maskgit.decode_token_ind_to_timeseries(s).cpu()
+            s = self.model.iterative_decoding(device=self.device)
+            xhat = self.model.decode_token_ind_to_timeseries(s).cpu()
 
             b = 0
             fig, axes = plt.subplots(2, 1, figsize=(4, 1.5 * 2))
