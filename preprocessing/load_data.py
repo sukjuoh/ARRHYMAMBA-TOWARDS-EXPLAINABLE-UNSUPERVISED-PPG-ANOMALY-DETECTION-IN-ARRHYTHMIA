@@ -17,7 +17,7 @@ from torch.utils.data import Dataset
 from utils import set_window_size
 
 
-data_dir = Path("/root/PPG/timevqvae/preprocessing/dataset/PPG_Dataset")
+data_dir = Path("/preprocessing/dataset/PPG_Dataset")
 # print(data_dir)
 
 pattern = re.compile(r"^([0-9]{2})_([a-z]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+).txt$")
