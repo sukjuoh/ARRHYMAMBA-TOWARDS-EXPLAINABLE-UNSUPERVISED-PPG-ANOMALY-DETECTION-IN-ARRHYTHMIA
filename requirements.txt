@@ -5,6 +5,7 @@ pytorch-lightning==2.3.0
 einops==0.8.1
 
 mamba-ssm==2.2.2
+## mamba_ssm-2.2.2+cu122torch2.4cxx11abiFALSE-cp310-cp310-linux_x86_64.whl
 causal-conv1d==1.4.0
 
 numpy==1.24.4
@@ -15,3 +16,4 @@ heartpy==1.2.7
 matplotlib==3.10.8
 tqdm==4.67.1
 pyyaml==6.0.3
+
