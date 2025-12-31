@@ -7,8 +7,8 @@ from argparse import ArgumentParser
 import pickle
 from multiprocessing import Process
 import numpy as np
-from exp.set_stage1 import SetStage1
-from exp.set_stage2 import SetStage2
+from module.set_stage1 import SetStage1
+from module.set_stage2 import SetStage2
 
 from evaluation import load_data
 import torch.nn as nn
