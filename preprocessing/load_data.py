@@ -22,6 +22,30 @@ data_dir = Path("/preprocessing/dataset/PPG_Dataset")
 
 pattern = re.compile(r"^([0-9]{2})_([a-z]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+).txt$")
 
+def scale(x, return_scale_params: bool = False):
+    """
+    Instance-wise scaling.
+    """
+    if isinstance(x, np.ndarray):
+        x = torch.from_numpy(x).float()
+
+    # Centering
+    mu = torch.nanmean(x, dim=-1, keepdim=True)
+    x = x - mu
+
+    # Variance scaling
+    std = torch.std(x, dim=-1, keepdim=True)
+    min_std = 1.e-4
+    std = torch.clamp(std, min_std, None)
+    x = x / std
+
+    if return_scale_params:
+        return x, (mu, std)
+    else:
+        return x
+
+
+
 
 @dataclass
 class PPG_TestSequence:
