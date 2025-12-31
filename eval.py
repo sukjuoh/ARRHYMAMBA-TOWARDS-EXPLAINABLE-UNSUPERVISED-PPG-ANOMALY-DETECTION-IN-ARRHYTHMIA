@@ -36,7 +36,7 @@ def load_args():
     parser.add_argument('--explainable_sampling', default=False, help='Note that this script will run more slowly with this option being True.')
     parser.add_argument('--n_explainable_samples', type=int, default=2, help='how many explainable samples to get per window.')
     parser.add_argument('--max_masking_rate_for_explainable_sampling', type=float, default=0.9, help='it prevents complete masking and ensures the minimum valid tokens to leave a minimum context for explainable sampling.')
-    parser.add_argument('--device', default=1, type=int)
+    parser.add_argument('--device', default=0, type=int)
     parser.add_argument('--n_workers', default=4, type=int, help='multi-processing for latent_window_size_rate.')
 
     return parser.parse_args()
@@ -222,7 +222,7 @@ if __name__ == '__main__':
             data = np.hstack(load_data(idx, config, 'train'))
             window_size = set_window_size(data) *config['dataset']['n_periods']
             
-            stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_ArrhyMamba.ckpt'), 
+            stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_arrhymamba.ckpt'), 
                                                 config=config, 
                                                 map_location=f'cuda:{args.device}', strict=False)            
                         
