@@ -28,8 +28,8 @@ import torch.nn.functional as F
 from exp.set_stage2 import SetStage2
 from sklearn.metrics import roc_auc_score
 
-from stage2 import get_state_dict
-from preprocessing.preprocess import scale
+from train_stage2 import get_state_dict
+from preprocessing.load_data import scale
 from utils import get_root_dir, set_window_size
 from preprocessing.load_data import PPG_TestSequence, PPGTestDataset
 from models.stage2.ArrhyMamba import ArrhyMamba
@@ -295,7 +295,7 @@ def evaluate_fn(config,
     window_size = set_window_size(data) *config['dataset']['n_periods']
     
 
-    stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_mamba(forward_only).ckpt'), 
+    stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_arrhymamba.ckpt'), 
                                                 config=config, 
                                                 map_location=f'cuda:{device}', strict=False)
 
