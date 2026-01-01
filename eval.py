@@ -7,8 +7,8 @@ from argparse import ArgumentParser
 import pickle
 from multiprocessing import Process
 import numpy as np
-from module.set_stage1 import SetStage1
-from module.set_stage2 import SetStage2
+from exp.set_stage1 import SetStage1
+from exp.set_stage2 import SetStage2
 
 from evaluation import load_data
 import torch.nn as nn
@@ -114,7 +114,7 @@ if __name__ == '__main__':
         print(print(f"run time: {end - start:.6f}sec"))
        
         # integrate all the joint anomaly scores across `latent_window_size_rates`
-        a_s_star = 0.
+        a_T = 0.
         joint_threshold = 0.
         for wsr in args.latent_window_size_rates:
             result_fname = get_root_dir().joinpath('evaluation', 'results', f'{idx}-anomaly_score-latent_window_size_rate_{wsr}.pkl')
