@@ -25,17 +25,16 @@ import torch.nn.functional as F
 
 
 
-from module.set_stage2 import SetStage2
+from exp.set_stage2 import SetStage2
 from sklearn.metrics import roc_auc_score
 
+from train_stage2 import get_state_dict
+from preprocessing.load_data import scale
 from utils import get_root_dir, set_window_size
-from preprocessing.load_data import PPG_TestSequence, PPGTestDataset, scale
+from preprocessing.load_data import PPG_TestSequence, PPGTestDataset
 from models.stage2.ArrhyMamba import ArrhyMamba
 from preprocessing.serve_data import build_data_pipeline
 
-
-def get_state_dict(state_dict):
-    return {k: v for k, v in state_dict.items() if not any(substr in k for substr in ["encoder", "decoder", "stage1", "vq_model"])}
 
 def compute_auc(TP_indices, FP_indices, FN_indices, length):
    
@@ -462,7 +461,7 @@ def save_final_summarized_figure(dataset_idx, X_test_unscaled, Y, timestep_rng_t
     max_anom = a_T.max()
     for j in range(n_freq):
         i += 1
-        axes[i].plot(a_T[j], color='lightsalmon')
+        axes[i].plot(a_T[j], color='green')
         axes[i].set_xticks([])
         axes[i].set_xlim(0, a_T.shape[1] - 1)
         h_idx = f'h={j}'
@@ -476,10 +475,10 @@ def save_final_summarized_figure(dataset_idx, X_test_unscaled, Y, timestep_rng_t
 
     # plot: bar{a}_T
     i += 1
-    axes[i].plot(a_bar_t, color='green')
+    axes[i].plot(a_bar_t, color='darkturquoise')
     axes[i].set_xticks([])
     axes[i].set_xlim(0, len(a_bar_t) - 1)
-    axes[i].set_ylabel(r'$\bar{a}_T$', fontsize=fontsize, rotation=0, labelpad=15, va='center')
+    axes[i].set_ylabel(r'$\bar{a}$', fontsize=fontsize, rotation=0, labelpad=15, va='center')
     axes[i].hlines(final_threshold, xmin=0, xmax=len(a_bar_t) - 1, linestyle='--', color='black')
 
     # plot: bar{a}_max
