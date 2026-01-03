@@ -6,7 +6,7 @@ dataset:
   num_workers: 0
   window_size: 96 
   n_periods: 2  
-  train_path: "/preprocessing/dataset/PPG_Dataset"
+  train_path: "./preprocessing/dataset/PPG_Dataset"
 
 exp_params:
   lr:
