@@ -7,7 +7,6 @@ from argparse import ArgumentParser
 import pickle
 from multiprocessing import Process
 import numpy as np
-from module.set_stage1 import SetStage1
 from module.set_stage2 import SetStage2
 
 from preprocessing.load_data import PPG_TestSequence
