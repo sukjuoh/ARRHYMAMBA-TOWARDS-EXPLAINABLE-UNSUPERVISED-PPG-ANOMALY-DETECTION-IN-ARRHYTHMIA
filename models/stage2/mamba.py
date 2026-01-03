@@ -54,9 +54,10 @@ def init_weights(module, n_layer, initializer_range=0.02, rescale_prenorm_residu
 
 class BiMambaLayer(nn.Module):
     """ Optimized Bi-directional Mamba Layer """
-    def __init__(self, dim, d_state=16, d_conv=3, dt_rank="auto", drop_path=0.1):
+    def __init__(self, dim, freq_dim, d_state=16, d_conv=3, dt_rank="auto", drop_path=0.1):
         super().__init__()
         self.dim = dim
+        self.freq_dim = freq_dim
         self.d_state = d_state
         self.d_conv = d_conv
         self.dt_rank = math.ceil(dim / 16) if dt_rank == "auto" else dt_rank
@@ -84,7 +85,7 @@ class BiMambaLayer(nn.Module):
     def forward(self, x):
         batch, seqlen, dim = x.shape
 
-        x_proj = self.in_proj(rearrange(x, 'b (f t) c -> (b f) t c', f=3))
+        x_proj = self.in_proj(rearrange(x, 'b (f t) c -> (b f) t c', f=self.freq_dim))
         x_proj = rearrange(x_proj, "b l c -> b c l")
         x_proj = self.conv_1d(x_proj)  
         
@@ -107,19 +108,20 @@ class BiMambaLayer(nn.Module):
         concat_out = torch.cat([x_proj, z_proj], dim=1)
         concat_out = rearrange(concat_out, "b c l -> b l c")
 
-        return rearrange(self.out_proj(concat_out), '(b f) t c -> b (f t) c', f=3)
+        return rearrange(self.out_proj(concat_out), '(b f) t c -> b (f t) c', f=self.freq_dim)
 
 
 class TransitionBlock(nn.Module):
-    def __init__(self, dim, expansion: int):
+    def __init__(self, dim, freq_dim, expansion: int):
         super().__init__()
+        self.freq_dim = freq_dim
         self.proj_in = nn.Linear(dim, expansion * dim)
         self.conv = nn.Conv2d(expansion * dim, expansion * dim, kernel_size=3, padding="same", groups=expansion * dim)
         self.activation = nn.GELU()
         self.proj_out = nn.Linear(expansion * dim, dim)
 
     def forward(self, x):
-        x = self.proj_in(rearrange(x, 'b (f t) c -> b f t c', f=3))
+        x = self.proj_in(rearrange(x, 'b (f t) c -> b f t c', f=self.freq_dim))
 
         x = rearrange(x, 'b f t c -> b c f t')
         x = self.conv(x)
@@ -129,15 +131,15 @@ class TransitionBlock(nn.Module):
 
 
 class BiMambaBlock(nn.Module):
-    def __init__(self, dim, n_layer=1, drop_path=0.1):
+    def __init__(self, dim, freq_dim, n_layer, d_state, d_conv, exp_ratio, drop_path=0.1):
         super().__init__()
         
         self.mamba_layers = nn.ModuleList([
-            BiMambaLayer(dim, d_state=16, d_conv=3, drop_path=drop_path) for _ in range(n_layer)
+            BiMambaLayer(dim, freq_dim, d_state=d_state, d_conv=d_conv, drop_path=drop_path) for _ in range(n_layer)
         ])
         self.norm = RMSNorm(dim)
         self.drop_path = DropPath(drop_path) if drop_path > 0. and self.training else nn.Identity()
-        self.mlp = TransitionBlock(dim, 4)
+        self.mlp = TransitionBlock(dim, freq_dim, exp_ratio)
 
         self.apply(lambda module: init_weights(module, n_layer=n_layer))
 
