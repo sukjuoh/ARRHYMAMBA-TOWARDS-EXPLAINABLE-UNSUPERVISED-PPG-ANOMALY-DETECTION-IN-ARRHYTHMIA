@@ -40,7 +40,6 @@ class SetStage2(pl.LightningModule):
         sch.step()
 
         loss_hist = {'loss': loss, 'mask_pred_loss': mask_pred_loss}
-        return loss_hist
 
     @torch.no_grad()
     def validation_step(self, batch, batch_idx):
