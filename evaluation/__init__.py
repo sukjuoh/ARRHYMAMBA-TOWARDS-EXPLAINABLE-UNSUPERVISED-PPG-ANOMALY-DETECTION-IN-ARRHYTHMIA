@@ -28,12 +28,15 @@ import torch.nn.functional as F
 from exp.set_stage2 import SetStage2
 from sklearn.metrics import roc_auc_score
 
-from train_stage2 import get_state_dict
 from preprocessing.load_data import scale
 from utils import get_root_dir, set_window_size
 from preprocessing.load_data import PPG_TestSequence, PPGTestDataset
 from models.stage2.ArrhyMamba import ArrhyMamba
 from preprocessing.serve_data import build_data_pipeline
+
+
+def get_state_dict(state_dict):
+    return {k: v for k, v in state_dict.items() if not any(substr in k for substr in ["encoder", "decoder", "stage1", "vq_model"])}
 
 
 def compute_auc(TP_indices, FP_indices, FN_indices, length):
@@ -293,9 +296,10 @@ def evaluate_fn(config,
 
     data = np.hstack(load_data(dataset_idx, config, 'train'))
     window_size = set_window_size(data) *config['dataset']['n_periods']
+    anom_type = PPG_TestSequence.get_name_by_id(dataset_idx)
     
 
-    stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_arrhymamba.ckpt'), 
+    stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'ArrhyMamba.ckpt'), 
                                                 config=config, 
                                                 map_location=f'cuda:{device}', strict=False)
 
@@ -367,13 +371,14 @@ def evaluate_fn(config,
     i = 0
     axes[i].plot(X_test_unscaled, color='black')
     axes[i].set_xlim(0, X_test_unscaled.shape[0] - 1)
-    axes[i].set_title(f"{dataset_idx} | latent window size rate: {latent_window_size_rate}", fontsize=20)
+    axes[i].set_title(f"{dataset_idx}_{anom_type} | latent window size rate: {latent_window_size_rate}", fontsize=20)
     ax2 = axes[i].twinx()
     ax2.plot(Y, alpha=0.5, color='C1')
 
     # plot: anomaly score
     i += 1
-    axes[i].imshow(a_T, interpolation='nearest', aspect='auto', cmap='magma')
+    vmin = np.nanquantile(np.array(a_T).flatten(), q=0.5)
+    axes[i].imshow(a_T, interpolation='nearest', aspect='auto', cmap='magma', vmin=vmin)
     axes[i].invert_yaxis()
     axes[i].set_xticks([])
     ylabel = 'clipped\n' + r'$a_T$'
@@ -404,7 +409,7 @@ def evaluate_fn(config,
 
     # save: plot
     plt.tight_layout()
-    plt.savefig(get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx}-anomaly_score-latent_window_size_rate_{latent_window_size_rate}.png'))
+    plt.savefig(get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx}_{anom_type}-anomaly_score-latent_window_size_rate_{latent_window_size_rate}.png'))
     plt.close()
 
     # save: resulting data
@@ -423,7 +428,7 @@ def evaluate_fn(config,
                       'anom_threshold': anom_threshold,  # (n_freq,)
                       }
 
-    saving_fname = get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx}-anomaly_score-latent_window_size_rate_{latent_window_size_rate}.pkl')
+    saving_fname = get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx}_{anom_type}-anomaly_score-latent_window_size_rate_{latent_window_size_rate}.pkl')
     with open(str(saving_fname), 'wb') as f:
         pickle.dump(resulting_data, f, pickle.HIGHEST_PROTOCOL)
     
@@ -437,20 +442,21 @@ def save_final_summarized_figure(dataset_idx, X_test_unscaled, Y, timestep_rng_t
     n_rows = 9
     fig, axes = plt.subplots(n_rows, 1, figsize=(25, 1.5 * n_rows))
     fontsize= 15
-
+    anom_type = PPG_TestSequence.get_name_by_id(dataset_idx)
+    
     # plot: X_test & labels
     i = 0
     axes[i].plot(X_test_unscaled, color='black')
     axes[i].set_xlim(0, X_test_unscaled.shape[0] - 1)
-    axes[i].set_title(f'{dataset_idx}', fontsize=fontsize)
+    axes[i].set_title(f'{dataset_idx} | {anom_type}', fontsize=fontsize)
     ax2 = axes[i].twinx()
     ax2.plot(Y, alpha=0.5, color='C1')
 
     # plot (imshow): a_s^*
     i += 1
-    a_s_star_clipped = np.copy(a_T)
-    a_s_star_clipped[:, ~anom_ind] = 0. if anom_ind.mean() == 0 else np.min(a_s_star_clipped[:, anom_ind])
-    axes[i].imshow(a_s_star_clipped, interpolation='nearest', aspect='auto', cmap='magma')  # , vmin=vmin)
+    a_T_clipped = np.copy(a_T)
+    a_T_clipped[:, ~anom_ind] = 0. if anom_ind.mean() == 0 else np.min(a_T_clipped[:, anom_ind])
+    axes[i].imshow(a_T_clipped, interpolation='nearest', aspect='auto', cmap='magma')  # , vmin=vmin)
     axes[i].invert_yaxis()
     axes[i].set_xticks([])
     ylabel = 'clipped\n' + r'$a_T$'
@@ -558,7 +564,7 @@ def save_final_summarized_figure(dataset_idx, X_test_unscaled, Y, timestep_rng_t
         data = np.hstack(load_data(dataset_idx, config, 'train'))
         window_size = set_window_size(data) *config['dataset']['n_periods']
        
-        stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_arrhymamba.ckpt'), 
+        stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'ArrhyMamba.ckpt'), 
                                             config=config, 
                                             map_location=f'cuda:{args.device}', strict=False)
 
@@ -627,6 +633,6 @@ def save_final_summarized_figure(dataset_idx, X_test_unscaled, Y, timestep_rng_t
     accuracy = result['Accuracy'][0]
     sensitivity = result['Recall'][0]
 
-    plt.savefig(get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx} | accuracy : {accuracy:.3f}, sensitivity: {sensitivity:.3f}.png'))
+    plt.savefig(get_root_dir().joinpath('evaluation', 'results', f'{dataset_idx}_{anom_type} | accuracy : {accuracy:.3f}, sensitivity: {sensitivity:.3f}.png'))
     plt.close()
 
