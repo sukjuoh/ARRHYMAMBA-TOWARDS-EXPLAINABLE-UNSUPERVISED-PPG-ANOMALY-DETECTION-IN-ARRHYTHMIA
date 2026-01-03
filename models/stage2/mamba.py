@@ -147,4 +147,4 @@ class BiMambaBlock(nn.Module):
             x = x + self.drop_path(layer(x))
         x = x + self.drop_path(self.mlp(self.norm(x)))
 
-        return x
+        return self.norm(x)
