@@ -36,3 +36,25 @@ pip install -r requirements.txt
 * **`utils/`**: Custom CUDA kernels for selective scan and training helper functions.
 * **`configs/`**: YAML files containing hyperparameter settings to ensure experimental reproducibility.
 
+## 5. Inference & Evaluation
+
+To facilitate immediate testing, the pre-trained checkpoint and sample test data are included directly in this repository.
+
+### 5.1. Model Checkpoint
+The pre-trained weight file, **`ArrhyMamba.ckpt`**, is provided in the file list above. 
+
+> **Note on Training Procedure:** Our model follows a **two-stage training process**. The weights from Stage 1 are used as the foundation for Stage 2 training. The final `ArrhyMamba.ckpt` includes the fully integrated weights from both stages, representing the complete optimized model.
+
+
+
+### 5.2. Sample Dataset for Anomaly Detection
+Example test data is located in `preprocess/PPG_dataset/`.
+* **Purpose**: These samples demonstrate how ArrhyMamba performs **arrhythmia detection** using an **unsupervised anomaly detection** framework.
+* **Functionality**: We provide these examples to show the model's ability to identify irregular PPG patterns (arrhythmias) by detecting them as temporal anomalies within the signal flow.
+
+### 5.3. Running Evaluation
+You can verify the model's performance by running the evaluation script with the provided sample dataset:
+
+```bash
+# Run evaluation using the included checkpoint and sample dataset (index 4)
+python eval.py --dataset_ind 4
