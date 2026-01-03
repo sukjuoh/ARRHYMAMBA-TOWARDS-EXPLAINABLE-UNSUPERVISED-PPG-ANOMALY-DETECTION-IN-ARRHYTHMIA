@@ -10,6 +10,7 @@ import numpy as np
 from exp.set_stage1 import SetStage1
 from exp.set_stage2 import SetStage2
 
+from preprocessing.load_data import PPG_TestSequence
 from evaluation import load_data
 import torch.nn as nn
 import torch
@@ -93,6 +94,7 @@ if __name__ == '__main__':
     for idx in args.dataset_ind:
         print(f'\nidx: {idx}')
         idx = int(idx)
+        anom_type = PPG_TestSequence.get_name_by_id(idx)
 
         start = time.perf_counter()
 
@@ -117,7 +119,7 @@ if __name__ == '__main__':
         a_T = 0.
         joint_threshold = 0.
         for wsr in args.latent_window_size_rates:
-            result_fname = get_root_dir().joinpath('evaluation', 'results', f'{idx}-anomaly_score-latent_window_size_rate_{wsr}.pkl')
+            result_fname = get_root_dir().joinpath('evaluation', 'results', f'{idx}_{anom_type}-anomaly_score-latent_window_size_rate_{wsr}.pkl')
             with open(str(result_fname), 'rb') as f:
                 result = pickle.load(f)
                 a_t = result['a_T']  # (n_freq, ts_len')
@@ -145,7 +147,6 @@ if __name__ == '__main__':
 
         # final threshold
         final_threshold = joint_threshold[0]*0.6 + joint_threshold[1]*0.3 + joint_threshold[2]*0.1
-        #final_threshold = (joint_threshold[0] + joint_threshold[1] + joint_threshold[2])/3
         anom_ind = a_final > final_threshold
 
         # plot
@@ -222,7 +223,7 @@ if __name__ == '__main__':
             data = np.hstack(load_data(idx, config, 'train'))
             window_size = set_window_size(data) *config['dataset']['n_periods']
             
-            stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'stage2_arrhymamba.ckpt'), 
+            stage2 = SetStage2.load_from_checkpoint(os.path.join('saved_models', 'ArrhyMamba.ckpt'), 
                                                 config=config, 
                                                 map_location=f'cuda:{args.device}', strict=False)            
                         
@@ -285,7 +286,7 @@ if __name__ == '__main__':
         joint_resulting_data['window_size'] = window_size
     
 
-        saving_fname = get_root_dir().joinpath('evaluation', 'results', f'{idx}-joint_anomaly_score.pkl')
+        saving_fname = get_root_dir().joinpath('evaluation', 'results', f'{idx}_{anom_type}-joint_anomaly_score.pkl')
         with open(saving_fname, 'wb') as f:
             pickle.dump(joint_resulting_data, f, pickle.HIGHEST_PROTOCOL)
     
