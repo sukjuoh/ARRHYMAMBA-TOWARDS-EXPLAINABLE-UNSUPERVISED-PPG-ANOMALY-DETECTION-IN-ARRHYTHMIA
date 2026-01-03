@@ -96,6 +96,7 @@ class ArrhyMamba(nn.Module):
         # transformer
         self.transformer = MambaTransformer(embed_dim=config['encoder']['dim'],
                                                     num_tokens=self.num_tokens,
+                                                    freq_dim=self.H_prime,
                                                     codebook_size=config['VQ-VAE']['codebook_size'],
                                                     **config['ArrhyMamba']['prior_model'],
                                                     )
