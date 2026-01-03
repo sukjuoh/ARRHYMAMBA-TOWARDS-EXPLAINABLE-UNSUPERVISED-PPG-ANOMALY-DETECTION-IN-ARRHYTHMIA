@@ -17,10 +17,35 @@ from torch.utils.data import Dataset
 from utils import set_window_size
 
 
-data_dir = Path("/preprocessing/dataset/PPG_Dataset")
+data_dir = Path("./preprocessing/PPG_dataset")
 # print(data_dir)
 
 pattern = re.compile(r"^([0-9]{2})_([a-z]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+)_([0-9]+).txt$")
+
+
+
+
+@dataclass
+class PPG_NormalSequence:
+    data: np.ndarray
+
+    @property
+    def train_data(self):
+        return self.data[:, :25000]
+
+    @property
+    def test_data(self):
+        return self.data[:, 25000:]
+
+    @staticmethod
+    def load_data(path: Path) -> "PPG_NormalSequence":
+        """
+        Load the PPG data from the given path.
+        """
+        assert path.exists(), f"Path does not exist: {path}"
+        data = np.load(path / 'ppg_train.npy', allow_pickle=True).astype(np.float32)
+        return PPG_NormalSequence(data)
+
 
 def scale(x, return_scale_params: bool = False):
     """
@@ -43,6 +68,48 @@ def scale(x, return_scale_params: bool = False):
         return x, (mu, std)
     else:
         return x
+
+
+class PPGNormalDataset(Dataset):
+    def __init__(self, kind: str, data: np.ndarray, config: dict):
+        assert kind in ['train', 'test']
+        self.kind = kind
+        self.config = config
+        self.n_periods = config['dataset']['n_periods']
+        self.interval = config['dataset']['window_size']
+
+        if kind == 'train':
+            self.data = data[:, :25000]
+        else: 
+            self.data = data[:, 25000:]
+
+        self.dataset = self._prepare_data()
+
+    def _prepare_data(self):
+        dataset = []  
+
+        nums = self.data.shape[0]
+        for num_idx in range(nums):
+            row_data = self.data[num_idx] 
+
+            window_size = self.interval * self.n_periods
+            #self.window_size * self.n_periods
+            start = 0
+            while start + window_size <= len(row_data):
+                sliced_window = scale(row_data[start:start + window_size])
+                dataset.append(sliced_window)  
+                start += 1  
+
+        datasets = [rearrange(data, 'l -> 1 l') for data in dataset]
+
+        return datasets
+    
+    def __len__(self):
+        return len(self.dataset)
+
+    def __getitem__(self, idx):
+        return self.dataset[idx]
+
 
 
 
@@ -114,6 +181,13 @@ class PPG_TestSequence:
     @classmethod
     def create_by_name(cls, name: str) -> PPG_TestSequence:
         return cls.create((next(data_dir.glob(f"*_{name}_*"))))
+    
+    @classmethod
+    def get_name_by_id(cls, id: int) -> str:
+        path = next(data_dir.glob(f"{id:02d}_*"))
+        match = pattern.match(path.name)
+        assert match
+        return match.groups()[1]
 
 
 class PPGTestDataset(Dataset):
