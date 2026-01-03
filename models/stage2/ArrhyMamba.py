@@ -74,6 +74,12 @@ class ArrhyMamba(nn.Module):
         self.mask_token_id = config['VQ-VAE']['codebook_size']
         self.gamma = gamma_func(config['ArrhyMamba']['mask_scheduling_func'])
 
+        '''
+        The model follows a two-stage training procedure.
+        Weights from Stage 1 are used to initialize Stage 2 training.
+        The final 'ArrhyMamba.ckpt' contains all integrated weights.
+        '''
+                     
         self.stage1 = SetStage1.load_from_checkpoint(os.path.join('saved_models', 'stage1.ckpt'), 
                                                      config=config,
                                                      map_location='cpu')
