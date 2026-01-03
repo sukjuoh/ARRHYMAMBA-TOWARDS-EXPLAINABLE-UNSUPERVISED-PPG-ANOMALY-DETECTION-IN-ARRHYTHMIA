@@ -25,7 +25,7 @@ import torch.nn.functional as F
 
 
 
-from exp.set_stage2 import SetStage2
+from module.set_stage2 import SetStage2
 from sklearn.metrics import roc_auc_score
 
 from preprocessing.load_data import scale
