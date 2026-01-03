@@ -51,14 +51,17 @@ class MambaTransformer(nn.Module):
     def __init__(self,
                  num_tokens: int,
                  codebook_size: int,
+                 freq_dim: int,
                  embed_dim: int,
                  hidden_dim: int,
                  mamba_layers: int,
+                 d_state: int,
+                 d_conv: int,
+                 exp_ratio: int,
                  depth: int,
                  heads: int,
                  attn_dim_head: int,
                  dropout:float,
-                 freq_dim: int=3,
                  **kwargs):
         """
         :param kind:
@@ -82,14 +85,18 @@ class MambaTransformer(nn.Module):
         self.dropout = dropout
         self.mask_token_idx = codebook_size
         self.mamba_layers = mamba_layers
-        self.mamba_layer = BiMambaBlock(in_dim, self.mamba_layers)
+        self.d_state = d_state
+        self.d_conv = d_conv
+        self.expension = exp_ratio
+        
+        self.mamba_layer = BiMambaBlock(in_dim, self.F, self.mamba_layers, self.d_state, self.d_conv, self.expension)
 
 
         # token embeddings
         self.tok_emb = nn.Embedding(codebook_size+1, embed_dim)  # `+1` is for mask-token
 
         # transformer
-        self.transformer = RoFormer(depth=depth, embedding_dim=embed_dim, num_heads=heads, H=self.F, dropout=dropout)
+        self.transformer = RoFormer(depth=depth, embedding_dim=embed_dim, num_heads=heads, H=self.F, expension=self.expension, dropout=dropout)
 
     
         self.pred_head = Head(in_dim, out_dim)
