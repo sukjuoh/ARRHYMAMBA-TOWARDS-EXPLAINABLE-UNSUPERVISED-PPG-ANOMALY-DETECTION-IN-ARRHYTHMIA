@@ -1,4 +1,4 @@
-# ArrhyMamba: Hybrid SSM-Transformer for PPG Arrhythmia Detection
+# ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
 
 **Notice:** This repository is shared proactively to ensure **transparency during the peer-review process**. A fully organized and official version of the code will be released upon the formal publication of the manuscript.
 
