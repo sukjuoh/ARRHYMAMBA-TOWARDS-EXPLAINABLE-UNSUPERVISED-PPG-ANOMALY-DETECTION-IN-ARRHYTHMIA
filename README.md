@@ -13,7 +13,7 @@
 
 ## 1. Model Architecture
 
-![Overview of the proposed ArrhyMamba architecture](figures/architecture_overview.png)
+![Overview of the proposed ArrhyMamba architecture](files/architecture.png)
 *Figure 1: Overview of the proposed ArrhyMamba architecture.*
 
 ArrhyMamba is a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
