@@ -1,11 +1,11 @@
 <h1 align="center">
   <sub><img src="files/arrhymamba_logo.png" width="70"></sub>
   ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
-
+</h1>
 <p align="center">
   <strong>The Official PyTorch Implementation of ArrhyMamba</strong><br>
-
-
+</p>
+---
 ## 📄 Abstract
 Photoplethysmography (PPG) signals exhibit significant inter- and intra-individual variability, making
 arrhythmia detection particularly challenging. Due to this variability and the severe class imbalance
@@ -21,7 +21,7 @@ of 0.915, recall of 0.937, F1-score of 0.732, AUC of 0.924, and specificity of 0
 to TimeVQVAE-AD, the state-of-the-art (SOTA) TSAD model, ArrhyMamba showed substantial
 performance gains — improving accuracy by 1.5%, recall by 29%, F1-score by 22%, and AUC by
 12%, with only 30% of the parameters.
-
+---
 
 ## 1. Model Architecture
 
@@ -36,7 +36,7 @@ Stage 1 follows the standard **VQ-VAE** structure, consisting of a CNN encoder, 
 ### (b) Stage 2: Masked Token Prediction
 Following **MaskGIT**, this stage employs the **Mamba-Transformer** to predict masked tokens in the latent space.
 
-### (c) Mamba-Transformer (The Hybrid Core)
+### (c) Mamba-Transformer
 The **Mamba-Transformer** is a hybrid architecture that integrates:
 * **Bidirectional Mamba**: Composed of forward and backward structured state-space models (SSMs), enabling efficient modeling of long-range dependencies.
 * **RoFormer**: A Transformer-based architecture that incorporates **Rotary Positional Embedding (RoPE)** to capture precise local patterns in PPG signals.
