@@ -1,7 +1,6 @@
 <h1 align="center">
   <sub><img src="files/arrhymamba_logo.png" width="70"></sub>
   ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
-</h1>
 
 
 ## 1. Overview
