@@ -7,6 +7,23 @@
   <strong>The Official PyTorch Implementation of ArrhyMamba</strong><br>
 
 </p>
+---
+
+## 📄 Abstract
+Photoplethysmography (PPG) signals exhibit significant inter- and intra-individual variability, making
+arrhythmia detection particularly challenging. Due to this variability and the severe class imbalance
+inherent in arrhythmia datasets, existing supervised learning models often struggle to generalize,
+limiting their ability to detect diverse arrhythmia across different individuals. In this paper, we propose
+ArrhyMamba, a PPG-based model leveraging time series anomaly detection (TSAD). By utilizing
+exclusively on normal PPG data, it enables a single model to detect various types of arrhythmias across
+diverse patients. Additionally, ArrhyMamba enhances explainability by generating counterfactual
+waveforms for detected arrhythmias. Unlike traditional approaches, ArrhyMamba adopts a hybrid
+architecture that combines the strengths of Mamba and Transformer models, enabling efficient and
+effective sequence modeling. On the VitalDB PPG dataset, ArrhyMamba achieved an accuracy
+of 0.915, recall of 0.937, F1-score of 0.732, AUC of 0.924, and specificity of 0.911. Compared
+to TimeVQVAE-AD, the state-of-the-art (SOTA) TSAD model, ArrhyMamba showed substantial
+performance gains — improving accuracy by 1.5%, recall by 29%, F1-score by 22%, and AUC by
+12%, with only 30% of the parameters.
 
 
 ## 1. Model Architecture
