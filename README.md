@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="files/arrhymamba_logo.png" width="50" style="vertical-align: middle; margin-right: 10px;">
+  <img src="files/arrhymamba_logo.png" width="70" style="vertical-align: middle; margin-right: 10px;">
   ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
 </h1>
 
