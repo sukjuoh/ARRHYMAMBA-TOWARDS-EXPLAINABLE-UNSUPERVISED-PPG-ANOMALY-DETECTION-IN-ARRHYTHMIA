@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="arrhymamba_logo.png" width="400"/>
+  <img src="files/arrhymamba_logo.png" width="400"/>
   <h1>ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia</h1>
   <p>Official Implementation of the Hybrid SSM-Transformer Framework</p>
 </div>
