@@ -1,12 +1,35 @@
 <h1 align="center">
   <sub><img src="files/arrhymamba_logo.png" width="70"></sub>
   ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+</h1>
 
+<p align="center">
+  <strong>Official Implementation of the Hybrid SSM-Transformer Framework</strong>
+</p>
 
-## 1. Overview
+**Notice:** This repository is shared proactively to ensure **transparency during the peer-review process**. A fully organized and official version of the code will be released upon the formal publication of the manuscript.
 
-* **Architecture**: ArrhyMamba leverages the long-sequence modeling of **Mamba** and the robust attention mechanism of **Transformers** with **RoPE** (Rotary Positional Embedding).
-* **Optimization**: The model is specifically optimized for high-frequency biomedical signals, capturing both global dependencies and local features.
+---
+
+## 1. Model Architecture
+
+![Overview of the proposed ArrhyMamba architecture](figures/architecture_overview.png)
+*Figure 1: Overview of the proposed ArrhyMamba architecture.*
+
+ArrhyMamba is a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
+
+### (a) Stage 1: VQ-Tokenizer
+Stage 1 follows the standard **VQ-VAE** structure, consisting of a CNN encoder, vector quantization layer, and CNN decoder to learn discrete latent representations of PPG signals.
+
+### (b) Stage 2: Masked Token Prediction
+Following **MaskGIT**, this stage employs the **Mamba-Transformer** to predict masked tokens in the latent space.
+
+### (c) Mamba-Transformer (The Hybrid Core)
+The **Mamba-Transformer** is a hybrid architecture that integrates:
+* **Bidirectional Mamba**: Composed of forward and backward structured state-space models (SSMs), enabling efficient modeling of long-range dependencies.
+* **RoFormer**: A Transformer-based architecture that incorporates **Rotary Positional Embedding (RoPE)** to capture precise local patterns in PPG signals.
+
+---
 
 ## 2. Requirements & Installation
 
