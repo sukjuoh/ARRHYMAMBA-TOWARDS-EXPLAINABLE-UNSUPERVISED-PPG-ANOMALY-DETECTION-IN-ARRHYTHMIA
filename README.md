@@ -30,7 +30,7 @@ performance gains — improving accuracy by 1.5%, recall by 29%, F1-score by 22%
 
 ![Overview of the proposed ArrhyMamba architecture](files/architecture.png)
 *Figure 1: Overview of the proposed ArrhyMamba architecture.*
-ArrhyMamba is a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
+ArrhyMamba is a hybrid Mamba-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
 
 ### (a) Stage 1: VQ-Tokenizer
 Stage 1 follows the standard **VQ-VAE** structure, consisting of a CNN encoder, vector quantization layer, and CNN decoder to learn discrete latent representations of PPG signals.
