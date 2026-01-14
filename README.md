@@ -77,8 +77,21 @@ The **Mamba-Transformer** is a hybrid architecture that integrates:
 
 ---
 
+## 3. Explainable PPG Anomaly Detection
 
-## 3. Requirements & Installation
+ArrhyMamba provides a robust and clinically interpretable framework for identifying cardiac irregularities.
+
+![Example](evaluation/results/4_tachycardia.png)
+*Figure 2: Qualitative result of tachycardia detection. ArrhyMamba effectively highlights irregular pulse intervals by assigning high anomaly scores to deviations from the learned normal rhythm.*
+
+### 🔍 Key Features of our TSAD Framework
+* **Unsupervised Learning on Normal Data**: ArrhyMamba is trained **exclusively on normal PPG waveforms**. This allows the model to establish a comprehensive representation of healthy cardiac rhythms without requiring expensive and scarce expert labels for various arrhythmias.
+* **Universal Detection across Diverse Patients**: By utilizing a Time-Series Anomaly Detection (TSAD) framework, the model can generalize across diverse patient profiles to detect a wide range of arrhythmias as temporal deviations.
+* **Explainability via Counterfactual Signal Generation**: Beyond simple detection, ArrhyMamba offers explainability by generating **counterfactual signals**. The model reconstructs what the anomalous segment *should* have looked like if it were a normal cardiac rhythm. By comparing the original anomalous signal with this generated counterfactual, clinicians can intuitively understand the specific morphological or temporal reasons for the anomaly flag.
+
+---
+
+## 4. Requirements & Installation
 
 To ensure the CUDA extensions for Mamba (specifically `selective_scan_cuda`) are correctly compiled, the following environment is required:
 
@@ -91,37 +104,35 @@ To ensure the CUDA extensions for Mamba (specifically `selective_scan_cuda`) are
 pip install -r requirements.txt
 ```
 
-## 4. Data Availability
+## 5. Data Availability
 * **Public Dataset**: Raw PPG signals are sourced from the **VitalDB** open repository ([https://vitaldb.net/](https://vitaldb.net/)).
 * **Restricted Data**: Please note that the **refined datasets and expert-labeled annotations** generated for this study are **strictly not publicly available** due to ethical restrictions, patient privacy concerns, and institutional policies.
 * **Access**: Researchers may contact the corresponding author for reasonable access requests regarding metadata, subject to institutional approval.
 
-## 5. Repository Structure
+## 6. Repository Structure
 
 * **`models/`**: Implementation of the hybrid Mamba-Transformer architecture including RoPE (Rotary Positional Embedding).
 * **`data/`**: Data loading utilities and preprocessing scripts utilizing `heartpy` for signal filtering.
 * **`utils/`**: Custom CUDA kernels for selective scan and training helper functions.
 * **`configs/`**: YAML files containing hyperparameter settings to ensure experimental reproducibility.
 
-## 6. Inference & Evaluation
+## 7. Inference & Evaluation
 
 To facilitate immediate testing, the pre-trained checkpoint and sample test data are included directly in this repository.
 
-### 6.1. Model Checkpoint
+### 7.1. Model Checkpoint
 The pre-trained weight file, **`ArrhyMamba.ckpt`**, is provided in the file list above. 
 
 > **Note on Training Procedure:** Our model follows a **two-stage training process**. The weights from Stage 1 are used as the foundation for Stage 2 training. The final `ArrhyMamba.ckpt` includes the fully integrated weights from both stages, representing the complete optimized model.
 
 
 
-### 6.2. Sample Dataset for Anomaly Detection
+### 7.2. Sample Dataset for Anomaly Detection
 Example test data is located in `preprocess/PPG_dataset/`.
 * **Purpose**: These samples demonstrate how ArrhyMamba performs **arrhythmia detection** using an **unsupervised anomaly detection** framework.
 * **Functionality**: We provide these examples to show the model's ability to identify irregular PPG patterns (arrhythmias) by detecting them as temporal anomalies within the signal flow.
 
-### 6.3. Running Evaluation
-![Example](evaluation/results/4_tachycardia.png)
-
+### 7.3. Running Evaluation
 You can verify the model's performance by running the evaluation script with the provided sample dataset:
 
 ```bash
