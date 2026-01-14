@@ -1,12 +1,11 @@
 <h1 align="center">
-  <img src="files/arrhymamba_logo.png" width="70" style="vertical-align: middle; margin-right: 10px;">
+  <img src="files/arrhymamba_logo.png" width="70" style="vertical-align: -12px; margin-right: 10px;">
   ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
 </h1>
 
 <p align="center">
   <strong>Official Implementation of the Hybrid SSM-Transformer Framework</strong>
 </p>
-
 ## 1. Overview
 
 * **Architecture**: ArrhyMamba leverages the long-sequence modeling of **Mamba** and the robust attention mechanism of **Transformers** with **RoPE** (Rotary Positional Embedding).
