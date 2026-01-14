@@ -4,11 +4,9 @@
 </h1>
 
 <p align="center">
-  <strong>Official Implementation of the Hybrid SSM-Transformer Framework</strong>
+  <strong>The Official PyTorch Implementation of ArrhyMamba</strong><br>
+  <em>A Hybrid Mamba-Transformer for Explainable Unsupervised Anomaly Detection in PPG Signals</em>
 </p>
-
-**Notice:** This repository is shared proactively to ensure **transparency during the peer-review process**. A fully organized and official version of the code will be released upon the formal publication of the manuscript.
-
 ---
 
 ## 1. Model Architecture
