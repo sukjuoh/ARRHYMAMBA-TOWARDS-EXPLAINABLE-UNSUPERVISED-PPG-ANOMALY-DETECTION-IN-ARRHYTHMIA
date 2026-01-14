@@ -1,8 +1,11 @@
-<div align="center">
-  <img src="files/arrhymamba_logo.png" width="400"/>
-  <h1>ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia</h1>
-  <p>Official Implementation of the Hybrid SSM-Transformer Framework</p>
-</div>
+<h1 align="center">
+  <img src="files/arrhymamba_logo.png" width="50" style="vertical-align: middle; margin-right: 10px;">
+  ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+</h1>
+
+<p align="center">
+  <strong>Official Implementation of the Hybrid SSM-Transformer Framework</strong>
+</p>
 
 ## 1. Overview
 
