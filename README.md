@@ -126,4 +126,8 @@ You can verify the model's performance by running the evaluation script with the
 # Run evaluation using the included checkpoint and sample dataset (index 4)
 python eval.py --dataset_ind 4
 ```
-![Overview of the proposed ArrhyMamba architecture](evaluation/results/4_tachtycardia.png)
+```html
+    <p align="center">
+      <img src="evaluation/results/4_tachycardia.png" width="700">
+    </p>
+    ```
