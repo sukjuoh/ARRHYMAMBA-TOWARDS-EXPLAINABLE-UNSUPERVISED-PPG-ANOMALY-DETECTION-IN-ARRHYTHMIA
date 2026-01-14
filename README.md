@@ -1,10 +1,8 @@
-# ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
-
-**Notice:** This repository is shared proactively to ensure **transparency during the peer-review process**. A fully organized and official version of the code will be released upon the formal publication of the manuscript.
-
-This repository contains the official implementation of **ArrhyMamba**, a hybrid SSM-Transformer framework designed for detecting arrhythmias in PPG signals through unsupervised time-series anomaly detection (TSAD).
-
----
+<div align="center">
+  <img src="arrhymamba_logo.png" width="400"/>
+  <h1>ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia</h1>
+  <p>Official Implementation of the Hybrid SSM-Transformer Framework</p>
+</div>
 
 ## 1. Overview
 
