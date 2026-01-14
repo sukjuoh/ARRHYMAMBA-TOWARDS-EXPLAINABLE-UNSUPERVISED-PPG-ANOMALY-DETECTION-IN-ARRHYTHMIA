@@ -5,7 +5,7 @@
 
 <p align="center">
   <strong>The Official PyTorch Implementation of ArrhyMamba</strong><br>
-  <em>A Hybrid Mamba-Transformer for Explainable Unsupervised Anomaly Detection in PPG Signals</em>
+
 </p>
 ---
 
