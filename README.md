@@ -120,12 +120,14 @@ Example test data is located in `preprocess/PPG_dataset/`.
 * **Functionality**: We provide these examples to show the model's ability to identify irregular PPG patterns (arrhythmias) by detecting them as temporal anomalies within the signal flow.
 
 ### 6.3. Running Evaluation
+![Example](evaluation/results/4_tachycardia.png)
+
 You can verify the model's performance by running the evaluation script with the provided sample dataset:
 
 ```bash
 # Run evaluation using the included checkpoint and sample dataset (index 4)
 python eval.py --dataset_ind 4
 ```
-![Overview of the proposed ArrhyMamba architecture](evaluation/results/4_tachycardia.png)
+
     
 
