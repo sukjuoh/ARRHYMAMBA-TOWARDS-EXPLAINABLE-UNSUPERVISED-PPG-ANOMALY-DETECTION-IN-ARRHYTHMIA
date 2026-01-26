@@ -1,6 +1,6 @@
 <h1 align="center">
   <sub><img src="files/arrhymamba_logo.png" width="70"></sub>
-  ArrhyMamba: Towards Explainable Unsupervised PPG Anomaly Detection in Arrhythmia
+  ArrhyMamba: Explainable Unsupervised PPG Anomaly Detection for Arrhythmia via State Space Models
 </h1>
 <p align="center">
   <strong>The Official PyTorch Implementation of ArrhyMamba</strong><br>
